@@ -1,0 +1,32 @@
+2026/09/15-09:24:36.282 5098 Reusing MANIFEST C:\Users\ACER\Desktop\CAMAUTOMSGFRETE-main\CAMAUTOMSGFRETE-main\app\msg\perfil\Default\IndexedDB\https_novacentral.fretebras.com.br_0.indexeddb.leveldb/MANIFEST-000001
+2026/09/15-09:24:36.283 5098 Recovering log #3
+2026/09/15-09:24:36.284 5098 Reusing old log C:\Users\ACER\Desktop\CAMAUTOMSGFRETE-main\CAMAUTOMSGFRETE-main\app\msg\perfil\Default\IndexedDB\https_novacentral.fretebras.com.br_0.indexeddb.leveldb/000003.log 
+2026/09/15-09:24:56.160 3114 Level-0 table #5: started
+2026/09/15-09:24:56.164 3114 Level-0 table #5: 2632 bytes OK
+2026/09/15-09:24:56.166 3114 Delete type=0 #3
+2026/09/15-09:24:56.168 5024 Manual compaction at level-0 from '\x00\x04\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/09/15-09:25:09.244 3114 Level-0 table #7: started
+2026/09/15-09:25:09.249 3114 Level-0 table #7: 2069 bytes OK
+2026/09/15-09:25:09.252 3114 Delete type=0 #4
+2026/09/15-09:25:09.254 5024 Manual compaction at level-0 from '\x00\x07\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x08\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/09/15-09:25:22.361 3114 Level-0 table #9: started
+2026/09/15-09:25:22.367 3114 Level-0 table #9: 1131 bytes OK
+2026/09/15-09:25:22.371 3114 Delete type=0 #6
+2026/09/15-09:25:22.373 5098 Manual compaction at level-0 from '\x00\x08\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x09\x00\x00\x00' @ 0 : 0; will stop at '\x00\x08\x00\x00\x05' @ 281 : 1
+2026/09/15-09:25:22.373 5098 Compacting 1@0 + 1@1 files
+2026/09/15-09:25:22.382 5098 Generated table #10@0: 73 keys, 1724 bytes
+2026/09/15-09:25:22.383 5098 Compacted 1@0 + 1@1 files => 1724 bytes
+2026/09/15-09:25:22.385 5098 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/09/15-09:25:22.387 5098 Manual compaction at level-0 from '\x00\x08\x00\x00\x05' @ 281 : 1 .. '\x00\x09\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/09/15-09:25:36.244 5024 Level-0 table #12: started
+2026/09/15-09:25:36.249 5024 Level-0 table #12: 1113 bytes OK
+2026/09/15-09:25:36.251 5024 Delete type=2 #7
+2026/09/15-09:25:36.252 5024 Delete type=0 #8
+2026/09/15-09:25:36.252 5024 Delete type=2 #9
+2026/09/15-09:25:36.261 5024 Manual compaction at level-0 from '\x00\x09\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x0a\x00\x00\x00' @ 0 : 0; will stop at '\x00\x09\x00\x00\x05' @ 312 : 1
+2026/09/15-09:25:36.261 5024 Compacting 1@0 + 1@1 files
+2026/09/15-09:25:36.265 5024 Generated table #13@0: 83 keys, 1990 bytes
+2026/09/15-09:25:36.265 5024 Compacted 1@0 + 1@1 files => 1990 bytes
+2026/09/15-09:25:36.267 5024 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/09/15-09:25:36.268 5024 Delete type=2 #12
+2026/09/15-09:25:36.271 5024 Manual compaction at level-0 from '\x00\x09\x00\x00\x05' @ 312 : 1 .. '\x00\x0a\x00\x00\x00' @ 0 : 0; will stop at (end)

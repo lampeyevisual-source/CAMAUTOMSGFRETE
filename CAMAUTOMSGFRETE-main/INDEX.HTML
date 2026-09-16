@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAM AUTONET</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #C1E5D6;
+            color: #164D38;
+            min-height: 100vh;
+            padding: 25px;
+        }
+
+        .painel {
+            width: 100%;
+            max-width: 1250px;
+            margin: 0 auto;
+            background: #EAF7F1;
+            border: 3px solid #2DA271;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(45, 162, 113, 0.18);
+        }
+
+        /* =========================
+           CABEÇALHO
+        ========================= */
+
+        .topo {
+            padding: 30px 40px 35px;
+            text-align: center;
+            border-bottom: 3px solid #2DA271;
+        }
+
+        .logo-area {
+            height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #8ACDB1;
+        }
+
+        .logo-placeholder {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2DA271;
+            letter-spacing: 3px;
+        }
+
+        .titulo {
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            color: #164D38;
+            letter-spacing: 1px;
+        }
+
+        /* =========================
+           BOTÕES PRINCIPAIS
+        ========================= */
+
+        .seletor-automacoes {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .botao-automacao {
+            width: 30%;
+            min-width: 220px;
+            min-height: 105px;
+            border: 3px solid #2DA271;
+            border-radius: 12px;
+            background: #D9F0E6;
+            color: #164D38;
+            font-size: 20px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .botao-automacao:hover {
+            background: #B9E2D0;
+            transform: translateY(-2px);
+        }
+
+        .botao-automacao.ativo {
+            background: #2DA271;
+            color: #EAF7F1;
+            box-shadow: 0 5px 12px rgba(45, 162, 113, 0.25);
+        }
+
+        /* =========================
+           CONFIGURAÇÃO
+        ========================= */
+
+        .secao {
+            padding: 35px 40px;
+            border-bottom: 3px solid #2DA271;
+        }
+
+        .titulo-secao {
+            text-align: center;
+            font-size: 23px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: #164D38;
+        }
+
+        .configuracao {
+            border: 2px solid #2DA271;
+            border-radius: 14px;
+            padding: 30px;
+            background: #DFF2E9;
+        }
+
+        .titulo-automacao {
+            text-align: center;
+            font-size: 27px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            color: #2DA271;
+        }
+
+        .subtitulo {
+            font-size: 17px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #164D38;
+        }
+
+        /* =========================
+           CAMPOS
+        ========================= */
+
+        .campo {
+            width: 100%;
+            min-height: 48px;
+            border: 2px solid #75B99B;
+            border-radius: 8px;
+            background: #EDF9F4;
+            color: #164D38;
+            padding: 12px 15px;
+            font-size: 16px;
+            margin-bottom: 12px;
+            outline: none;
+        }
+
+        .campo:focus {
+            border-color: #2DA271;
+            box-shadow: 0 0 0 3px rgba(45, 162, 113, 0.12);
+        }
+
+        .linha-campo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .campo-raio {
+            max-width: 180px;
+        }
+
+        .unidade {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* =========================
+           LISTA DE CIDADES / ESTADOS
+        ========================= */
+
+        .lista {
+            margin-bottom: 22px;
+        }
+
+        .item-lista {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .item-lista .campo {
+            margin-bottom: 0;
+        }
+
+        .botao-remover {
+            width: 48px;
+            border: 2px solid #2DA271;
+            border-radius: 8px;
+            background: #D1EBDD;
+            color: #164D38;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .botao-remover:hover {
+            background: #B9E2D0;
+        }
+
+        .botao-adicionar {
+            border: 2px solid #2DA271;
+            border-radius: 8px;
+            background: #D1EBDD;
+            color: #164D38;
+            padding: 12px 20px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-bottom: 25px;
+        }
+
+        .botao-adicionar:hover {
+            background: #B9E2D0;
+        }
+
+        /* =========================
+           DIVISÓRIA
+        ========================= */
+
+        .divisoria {
+            border: 0;
+            border-top: 2px solid #8ACDB1;
+            margin: 25px 0;
+        }
+
+        /* =========================
+           CONTROLES
+        ========================= */
+
+        .titulo-controle {
+            font-size: 17px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .controles {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .botao-controle {
+            min-height: 48px;
+            padding: 12px 20px;
+            border: 2px solid #2DA271;
+            border-radius: 8px;
+            background: #D1EBDD;
+            color: #164D38;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .botao-controle:hover {
+            background: #B9E2D0;
+        }
+
+        .botao-iniciar {
+            background: #2DA271;
+            color: #EAF7F1;
+        }
+
+        .botao-parar {
+            border-color: #A64B4B;
+            color: #7A2929;
+            background: #F0DADA;
+        }
+
+        .botao-parar:hover {
+            background: #E8C7C7;
+        }
+
+        /* =========================
+           SPAM
+        ========================= */
+
+        .mensagens-status {
+            border: 2px solid #75B99B;
+            border-radius: 10px;
+            padding: 20px;
+            background: #EDF9F4;
+            margin-bottom: 25px;
+        }
+
+        .status-linha {
+            padding: 8px 0;
+            font-size: 16px;
+        }
+
+        .status-ok {
+            font-weight: bold;
+            color: #227A55;
+        }
+
+        .status-quantidade {
+            margin-top: 8px;
+            font-weight: bold;
+        }
+
+        /* =========================
+           LOG
+        ========================= */
+
+        .log {
+            border: 2px solid #2DA271;
+            border-radius: 14px;
+            background: #DFF2E9;
+            padding: 25px;
+        }
+
+        .status-atual {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 18px;
+            color: #164D38;
+        }
+
+        .log-conteudo {
+            border: 2px solid #75B99B;
+            border-radius: 8px;
+            background: #EDF9F4;
+            min-height: 150px;
+            padding: 15px;
+            font-family: Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.8;
+            overflow-y: auto;
+        }
+
+        /* =========================
+           OCULTAR CONFIGURAÇÕES
+        ========================= */
+
+        .configuracao-oculta {
+            display: none;
+        }
+
+        /* =========================
+           RESPONSIVO
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            body {
+                padding: 10px;
+            }
+
+            .topo,
+            .secao {
+                padding: 25px 18px;
+            }
+
+            .titulo {
+                font-size: 25px;
+            }
+
+            .botao-automacao {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .configuracao {
+                padding: 20px;
+            }
+
+            .titulo-automacao {
+                font-size: 22px;
+            }
+
+            .controles {
+                flex-direction: column;
+            }
+
+            .botao-controle {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="painel">
+
+    <!-- =====================================================
+         CABEÇALHO
+    ====================================================== -->
+
+    <header class="topo">
+
+        <div class="logo-area">
+            <div class="logo-placeholder">
+                LOGO CAM
+            </div>
+        </div>
+
+        <h1 class="titulo">
+            COMEÇAREMOS POR ONDE?
+        </h1>
+
+        <div class="seletor-automacoes">
+
+            <button
+                class="botao-automacao ativo"
+                onclick="selecionarAutomacao('cidades', this)">
+                CIDADES
+            </button>
+
+            <button
+                class="botao-automacao"
+                onclick="selecionarAutomacao('estados', this)">
+                ESTADOS
+            </button>
+
+            <button
+                class="botao-automacao"
+                onclick="selecionarAutomacao('spam', this)">
+                SPAM MENSAGENS
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         CONFIGURAÇÃO DA AUTOMAÇÃO
+    ====================================================== -->
+
+    <section class="secao">
+
+        <h2 class="titulo-secao">
+            CONFIGURAÇÃO DA AUTOMAÇÃO
+        </h2>
+
+
+        <!-- =================================================
+             CIDADES
+        ================================================== -->
+
+        <div id="config-cidades" class="configuracao">
+
+            <h3 class="titulo-automacao">
+                CIDADES + RAIO
+            </h3>
+
+            <div class="subtitulo">
+                CIDADES
+            </div>
+
+            <div id="lista-cidades" class="lista">
+
+                <div class="item-lista">
+                    <input
+                        type="text"
+                        class="campo"
+                        value="Rondonópolis, MT"
+                        placeholder="Digite a cidade e estado">
+                    <button
+                        class="botao-remover"
+                        onclick="removerItem(this)">
+                        ×
+                    </button>
+                </div>
+
+                <div class="item-lista">
+                    <input
+                        type="text"
+                        class="campo"
+                        value="Querência, MT"
+                        placeholder="Digite a cidade e estado">
+                    <button
+                        class="botao-remover"
+                        onclick="removerItem(this)">
+                        ×
+                    </button>
+                </div>
+
+                <div class="item-lista">
+                    <input
+                        type="text"
+                        class="campo"
+                        value="Barra do Garças, MT"
+                        placeholder="Digite a cidade e estado">
+                    <button
+                        class="botao-remover"
+                        onclick="removerItem(this)">
+                        ×
+                    </button>
+                </div>
+
+                <div class="item-lista">
+                    <input
+                        type="text"
+                        class="campo"
+                        value="Uberlândia, MG"
+                        placeholder="Digite a cidade e estado">
+                    <button
+                        class="botao-remover"
+                        onclick="removerItem(this)">
+                        ×
+                    </button>
+                </div>
+
+            </div>
+
+            <button
+                class="botao-adicionar"
+                onclick="adicionarCidade()">
+                + ADICIONAR CIDADE
+            </button>
+
+
+            <div class="subtitulo">
+                RAIO
+            </div>
+
+            <div class="linha-campo">
+
+                <input
+                    type="number"
+                    id="raio"
+                    class="campo campo-raio"
+                    value="200"
+                    min="1">
+
+                <span class="unidade">
+                    km
+                </span>
+
+            </div>
+
+
+            <hr class="divisoria">
+
+
+            <div class="titulo-controle">
+                CONTROLE DA AUTOMAÇÃO
+            </div>
+
+            <div class="controles">
+
+                <button
+                    class="botao-controle botao-iniciar"
+                    onclick="registrarLog('INICIAR - Cidades')">
+                    ▶ INICIAR
+                </button>
+
+                <button
+                    class="botao-controle"
+                    onclick="registrarLog('PAUSAR - Cidades')">
+                    ⏸ PAUSAR
+                </button>
+
+                <button
+                    class="botao-controle"
+                    onclick="registrarLog('CONTINUAR - Cidades')">
+                    ▶ CONTINUAR
+                </button>
+
+                <button
+                    class="botao-controle"
+                    onclick="registrarLog('PRÓXIMA CIDADE')">
+                    ⏭ PRÓXIMA CIDADE
+                </button>
+
+                <button
+                    class="botao-controle botao-parar"
+                    onclick="registrarLog('PARAR - Cidades')">
+                    ■ PARAR
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ESTADOS
+        ================================================== -->
+
+        <div id="config-estados" class="configuracao configuracao-oculta">
+
+            <h3 class="titulo-automacao">
+                ESTADOS
+            </h3>
+
+            <div class="subtitulo">
+                ESTADOS
+            </div>
+
+            <div id="lista-estados" class="lista">
+
+                <div class="item-lista">
+                    <input
+                        type="text"
+                        class="campo"
+                        value="MG"
+                        placeholder="Ex.: MG">
+                    <button
+                        class="botao-remover"
+                        onclick="removerItem(this)">
+                        ×
+                    </button>
+                </div>
+
+                <div class="item-lista">
+                    <input
+                        type="text"
+                        class="campo"
+                        value="GO"
+                        placeholder="Ex.: GO">
+                    <button
+                        class="botao-remover"
+                        onclick="removerItem(this)">
+                        ×
+                    </button>
+                </div>
+
+                <div class="item-lista">
+                    <input
+                        type="text"
+                        class="campo"
+                        value="SP"
+                        placeholder="Ex.: SP">
+                    <button
+                        class="botao-remover"
+                        onclick="removerItem(this)">
+                        ×
+                    </button>
+                </div>
+
+            </div>
+
+            <button
+                class="botao-adicionar"
+                onclick="adicionarEstado()">
+                + ADICIONAR ESTADO
+            </button>
+
+
+            <hr class="divisoria">
+
+
+            <div class="titulo-controle">
+                CONTROLE DA AUTOMAÇÃO
+            </div>
+
+            <div class="controles">
+
+                <button
+                    class="botao-controle botao-iniciar"
+                    onclick="registrarLog('INICIAR - Estados')">
+                    ▶ INICIAR
+                </button>
+
+                <button
+                    class="botao-controle"
+                    onclick="registrarLog('PAUSAR - Estados')">
+                    ⏸ PAUSAR
+                </button>
+
+                <button
+                    class="botao-controle"
+                    onclick="registrarLog('CONTINUAR - Estados')">
+                    ▶ CONTINUAR
+                </button>
+
+                <button
+                    class="botao-controle"
+                    onclick="registrarLog('PRÓXIMO ESTADO')">
+                    ⏭ PRÓXIMO ESTADO
+                </button>
+
+                <button
+                    class="botao-controle botao-parar"
+                    onclick="registrarLog('PARAR - Estados')">
+                    ■ PARAR
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SPAM
+        ================================================== -->
+
+        <div id="config-spam" class="configuracao configuracao-oculta">
+
+            <h3 class="titulo-automacao">
+                SPAM DE MENSAGENS
+            </h3>
+
+            <div class="subtitulo">
+                MENSAGENS PROGRAMADAS
+            </div>
+
+            <div class="mensagens-status">
+
+                <div class="status-linha status-ok">
+                    ✓ Mensagens programadas carregadas
+                </div>
+
+                <div class="status-linha">
+                    O arquivo de mensagens será utilizado automaticamente.
+                </div>
+
+                <div class="status-linha status-quantidade">
+                    Quantidade: 3 mensagens
+                </div>
+
+                <div class="status-linha status-ok">
+                    ✓ Seleção automática de mensagens
+                </div>
+
+            </div>
+
+
+            <hr class="divisoria">
+
+
+            <div class="titulo-controle">
+                CONTROLE DA AUTOMAÇÃO
+            </div>
+
+            <div class="controles">
+
+                <button
+                    class="botao-controle botao-iniciar"
+                    onclick="registrarLog('INICIAR - Spam Mensagens')">
+                    ▶ INICIAR
+                </button>
+
+                <button
+                    class="botao-controle"
+                    onclick="registrarLog('PAUSAR - Spam Mensagens')">
+                    ⏸ PAUSAR
+                </button>
+
+                <button
+                    class="botao-controle"
+                    onclick="registrarLog('CONTINUAR - Spam Mensagens')">
+                    ▶ CONTINUAR
+                </button>
+
+                <button
+                    class="botao-controle botao-parar"
+                    onclick="registrarLog('PARAR - Spam Mensagens')">
+                    ■ PARAR
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         LOG
+    ====================================================== -->
+
+    <section class="secao">
+
+        <h2 class="titulo-secao">
+            LOG DA AUTOMAÇÃO
+        </h2>
+
+        <div class="log">
+
+            <div id="status-atual" class="status-atual">
+                STATUS: AGUARDANDO INÍCIO
+            </div>
+
+            <div id="log-conteudo" class="log-conteudo">
+
+                <div>> Sistema pronto</div>
+                <div>> Automação selecionada: Cidades + Raio</div>
+                <div>> Mensagens programadas encontradas</div>
+                <div>> Aguardando comando INICIAR</div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script>
+
+    /* =====================================================
+       TROCAR AUTOMAÇÃO
+    ====================================================== */
+
+    function selecionarAutomacao(tipo, botao) {
+
+        const cidades = document.getElementById("config-cidades");
+        const estados = document.getElementById("config-estados");
+        const spam = document.getElementById("config-spam");
+
+        cidades.classList.add("configuracao-oculta");
+        estados.classList.add("configuracao-oculta");
+        spam.classList.add("configuracao-oculta");
+
+        if (tipo === "cidades") {
+            cidades.classList.remove("configuracao-oculta");
+
+            atualizarStatus(
+                "STATUS: CIDADES + RAIO SELECIONADO"
+            );
+
+            registrarLog(
+                "Automação selecionada: Cidades + Raio"
+            );
+        }
+
+        if (tipo === "estados") {
+            estados.classList.remove("configuracao-oculta");
+
+            atualizarStatus(
+                "STATUS: ESTADOS SELECIONADO"
+            );
+
+            registrarLog(
+                "Automação selecionada: Estados"
+            );
+        }
+
+        if (tipo === "spam") {
+            spam.classList.remove("configuracao-oculta");
+
+            atualizarStatus(
+                "STATUS: SPAM DE MENSAGENS SELECIONADO"
+            );
+
+            registrarLog(
+                "Automação selecionada: Spam de Mensagens"
+            );
+        }
+
+        document
+            .querySelectorAll(".botao-automacao")
+            .forEach(function(btn) {
+                btn.classList.remove("ativo");
+            });
+
+        botao.classList.add("ativo");
+    }
+
+
+    /* =====================================================
+       ADICIONAR CIDADE
+    ====================================================== */
+
+    function adicionarCidade() {
+
+        const lista = document.getElementById("lista-cidades");
+
+        const item = document.createElement("div");
+
+        item.className = "item-lista";
+
+        item.innerHTML = `
+            <input
+                type="text"
+                class="campo"
+                placeholder="Digite a cidade e estado">
+
+            <button
+                class="botao-remover"
+                onclick="removerItem(this)">
+                ×
+            </button>
+        `;
+
+        lista.appendChild(item);
+
+        registrarLog("Nova cidade adicionada");
+    }
+
+
+    /* =====================================================
+       ADICIONAR ESTADO
+    ====================================================== */
+
+    function adicionarEstado() {
+
+        const lista = document.getElementById("lista-estados");
+
+        const item = document.createElement("div");
+
+        item.className = "item-lista";
+
+        item.innerHTML = `
+            <input
+                type="text"
+                class="campo"
+                placeholder="Ex.: MG">
+
+            <button
+                class="botao-remover"
+                onclick="removerItem(this)">
+                ×
+            </button>
+        `;
+
+        lista.appendChild(item);
+
+        registrarLog("Novo estado adicionado");
+    }
+
+
+    /* =====================================================
+       REMOVER ITEM
+    ====================================================== */
+
+    function removerItem(botao) {
+
+        const item = botao.parentElement;
+
+        item.remove();
+
+        registrarLog("Item removido");
+    }
+
+
+    /* =====================================================
+       STATUS
+    ====================================================== */
+
+    function atualizarStatus(texto) {
+
+        document.getElementById("status-atual").innerText = texto;
+    }
+
+
+    /* =====================================================
+       LOG
+    ====================================================== */
+
+    function registrarLog(texto) {
+
+        const log = document.getElementById("log-conteudo");
+
+        const agora = new Date();
+
+        const hora =
+            agora.getHours().toString().padStart(2, "0")
+            + ":"
+            +
+            agora.getMinutes().toString().padStart(2, "0")
+            + ":"
+            +
+            agora.getSeconds().toString().padStart(2, "0");
+
+        const linha = document.createElement("div");
+
+        linha.innerText = "> [" + hora + "] " + texto;
+
+        log.appendChild(linha);
+
+        log.scrollTop = log.scrollHeight;
+    }
+
+</script>
+
+</body>
+</html>
